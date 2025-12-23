@@ -1,0 +1,53 @@
+{
+  "name": "mycapapp",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "dependencies": {
+    "@cap-js/hana": "^2",
+    "@sap-cloud-sdk/connectivity": "^4",
+    "@sap-cloud-sdk/http-client": "^4",
+    "@sap-cloud-sdk/resilience": "^4",
+    "@sap/cds": "^9",
+    "@sap/xssec": "^4",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": "^9",
+    "cds-plugin-ui5": "^0.13.0"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-home": "cds watch --open home/index.html?sap-ui-xx-viewCache=false --livereload false"
+  },
+  "private": true,
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/home"
+  ],
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": "xsuaa"
+      },
+      "Products": {
+        "kind": "odata-v2",
+        "model": "srv/external/Customers",
+        "credentials": {
+          "destination": "Products"
+        },
+        "csrf": true,
+        "csrfInBatch": true
+      },
+      "Northwind": {
+        "kind": "odata",
+        "model": "srv/northwind.cds",
+        "credentials": {
+          "url": "https://services.odata.org/V4/Northwind/Northwind.svc/"
+        }
+      }
+    }
+  }
+}
